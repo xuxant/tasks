@@ -38,7 +38,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: TF_VAR_AWS_REGION
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: setup terraform
         uses: hashicorp/setup-terraform@v3
@@ -46,10 +46,12 @@ jobs:
       - name: initialize terraform
         working-directory: terraform
         run: terraform init
+        env:
+          TF_VAR_AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: terraform plan
         working-directory: terraform
         run: terraform plan -out plan.out
         env:
           TF_VAR_image: ${{ secrets.DOCKER_IMAGE }}:${{ github.sha }}
-          
+          TF_VAR_AWS_REGION: ${{ secrets.AWS_REGION }}
