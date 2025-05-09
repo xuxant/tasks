@@ -55,3 +55,6 @@ jobs:
         env:
           TF_VAR_image: ${{ secrets.DOCKER_IMAGE }}:${{ github.sha }}
           TF_VAR_AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: terraform apply
+        run: terraform apply plan.out
