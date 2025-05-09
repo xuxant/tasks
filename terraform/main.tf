@@ -71,12 +71,11 @@ resource "aws_eip" "nat_eip" {
 }
 
 resource "aws_nat_gateway" "nat_gw" {
-  count         = 3
-  allocation_id = aws_eip.nat_eip[count.index].id
-  subnet_id     = aws_subnet.public_subnet[count.index].id
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public_subnet[0].id
   tags = merge(
     var.tags,
-    { Name = "${var.name}-${data.aws_availability_zones.available.names[count.index % 3]}" }
+    { Name = "${var.name}-${data.aws_availability_zones.available.names[0]}" }
   )
 }
 
@@ -112,7 +111,7 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "private_route" {
   route_table_id         = aws_route_table.private_route_table.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat_gw[0].id
+  nat_gateway_id         = aws_nat_gateway.nat_gw.id
 }
 
 # Associate private route table with private subnets
@@ -332,7 +331,7 @@ resource "aws_ecs_service" "ecs_service" {
   deployment_minimum_healthy_percent = "75"
   desired_count                      = var.desired_count
   network_configuration {
-    subnets         = aws_subnet.private_subnet.*.ids
+    subnets         = aws_subnet.private_subnet.*.id
     security_groups = [aws_security_group.app.id]
   }
 

@@ -58,15 +58,15 @@ variable "service_name" {
 }
 
 variable "container_cpu" {
-  type        = string
+  type        = number
   description = "CPU allocation for the app."
-  default     = "256"
+  default     = 256
 }
 
 variable "container_memory" {
-  type        = string
+  type        = number
   description = "Memory allocation for the app."
-  default     = "1024"
+  default     = 1024
 }
 
 variable "image" {
