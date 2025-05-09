@@ -57,4 +57,5 @@ jobs:
           TF_VAR_AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: terraform apply
+        working-directory: terraform
         run: terraform apply plan.out
