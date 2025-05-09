@@ -1,0 +1,14 @@
+{
+    "name": "fargate-node-app",
+    "version": "1.0.0",
+    "description": "A simple Node.js app for AWS Fargate deployment",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+      "express": "^5.0.0"
+    }
+  }
